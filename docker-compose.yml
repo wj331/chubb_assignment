@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:16
+
+    container_name: claims-db
+
+    environment:
+      POSTGRES_DB: claims
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+    ports:
+      - "5432:5432"
