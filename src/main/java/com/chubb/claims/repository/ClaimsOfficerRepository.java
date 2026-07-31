@@ -1,7 +1,16 @@
 package com.chubb.claims.repository;
 
-import com.chubb.claims.entity.ClaimsOfficer;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClaimsOfficerRepository extends JpaRepository<ClaimsOfficer, Long> {
+import com.chubb.claims.entity.ClaimsOfficer;
+
+public interface ClaimsOfficerRepository
+        extends JpaRepository<ClaimsOfficer, Long> {
+
+    boolean existsByNameAndTeamId(String name, String teamId);
+
+    Optional<ClaimsOfficer> findByNameAndTeamId(String name, String teamId);
+
 }

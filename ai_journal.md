@@ -14,3 +14,8 @@
 
 ## Commit 4
 - Continued to build on Claims which Claimants can file. Once again, used AI to ensure nothing is missing, fields are appropriate, and all necessary fields are included. On a side note, AI recommended claimant to fill in estimated liability but I feel that should be filled up by a ClaimsOfficer instead of by the claimant himself. Changed accordingly and will implement ClaimsOfficer next.
+
+## Commit 5
+- Built on AssignClaims which assigns one Claim to one ClaimOfficer. Followed AI's guidance to change AssignClaimRequest.java, update Controller, Service and followed by ServiceImpl. I initially wondered why not also pass Officer's ID in the url, but seems like it is a good practice to only include id of what we are changing in the url, and other information in the request body
+- Also went to set business logic such as once assigned, unable to assign claims again to a new officer
+- Refactored error messages to look nicer rather on relying on default IllegalArgumentException

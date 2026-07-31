@@ -1,6 +1,7 @@
 package com.chubb.claims.controller;
 
 import com.chubb.claims.dto.request.CreateClaimRequest;
+import com.chubb.claims.dto.request.AssignClaimRequest;
 import com.chubb.claims.dto.response.ClaimResponse;
 import com.chubb.claims.service.ClaimService;
 
@@ -36,4 +37,12 @@ public class ClaimController {
                 claimService.getClaim(id));
     }
 
+    @PatchMapping("/{id}/assign")
+    public ResponseEntity<ClaimResponse> assignOfficer(
+            @PathVariable Long id,
+            @Valid @RequestBody AssignClaimRequest request) {
+
+        return ResponseEntity.ok(
+                claimService.assignOfficer(id, request));
+    }
 }
