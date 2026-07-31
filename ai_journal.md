@@ -23,3 +23,7 @@
 ## Commit 6
 - Introduced the business logic here, for claim's status transition from SUBMITTED -> UNDER_REVIEW -> APPROVED / REJECTED / WAITING FOR INFORMATION etc. Used AI here to consider the different transition logics, in real world scenarios of insurance claims.
 - Additionally, also implemented transition restrictions, officer restrictions which I believe agree with the real world requirements and uses
+
+## Commit 7
+- Felt that managers need an API to call and consolidate the whole overview of the company, as well as for individual markets. Hence introducing dashboards, grouping claims by their respective status and further summing up total possible liabilities across all claims. 
+- Lastly, also introduced an optional key for managers to filter by respective markets only.
