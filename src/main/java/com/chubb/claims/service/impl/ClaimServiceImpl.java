@@ -1,26 +1,27 @@
 package com.chubb.claims.service.impl;
 
+import java.time.Year;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.chubb.claims.dto.request.AssignClaimRequest;
 import com.chubb.claims.dto.request.CreateClaimRequest;
+import com.chubb.claims.dto.request.UpdateClaimStatusRequest;
 import com.chubb.claims.dto.response.ClaimResponse;
 import com.chubb.claims.entity.Claim;
 import com.chubb.claims.entity.Claimant;
 import com.chubb.claims.entity.ClaimsOfficer;
-import com.chubb.claims.exception.ResourceNotFoundException;
+import com.chubb.claims.enums.ClaimStatus;
 import com.chubb.claims.exception.InvalidClaimOperationException;
+import com.chubb.claims.exception.ResourceNotFoundException;
 import com.chubb.claims.repository.ClaimRepository;
 import com.chubb.claims.repository.ClaimantRepository;
 import com.chubb.claims.repository.ClaimsOfficerRepository;
 import com.chubb.claims.service.ClaimService;
-import com.chubb.claims.enums.ClaimStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Service;
-
-import java.time.Year;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -110,7 +111,7 @@ public class ClaimServiceImpl implements ClaimService {
         // Optional business rule:
         // Only officers from the same market can handle the claim.
         if (officer.getMarket() != claim.getMarket()) {
-        throw new IllegalArgumentException(
+        throw new InvalidClaimOperationException(
                 "Officer and claim must belong to the same market.");
         }
 
@@ -123,6 +124,59 @@ public class ClaimServiceImpl implements ClaimService {
         claim.getClaimNumber());
         return mapToResponse(claim);
     }
+    @Override
+        public ClaimResponse updateStatus(
+                Long claimId,
+                UpdateClaimStatusRequest request) {
+
+        Claim claim = claimRepository.findById(claimId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Claim not found with id " + claimId));
+
+        if (claim.getAssignedOfficer() == null) {
+                throw new InvalidClaimOperationException(
+                        "Claim must be assigned to an officer before updating status.");
+        }
+
+        validateTransition(
+                claim.getStatus(),
+                request.getStatus());
+
+        if (request.getStatus().requiresDecisionReason()) {
+
+                if (request.getDecisionReason() == null
+                        || request.getDecisionReason().isBlank()) {
+
+                throw new InvalidClaimOperationException(
+                        "Decision reason is required.");
+                }
+
+                claim.setDecisionReason(request.getDecisionReason());
+        }
+
+        ClaimStatus previousStatus = claim.getStatus();
+
+        claim.setStatus(request.getStatus());
+
+        claim = claimRepository.save(claim);
+
+        log.info(
+                "Claim {} status changed from {} to {}",
+                claim.getClaimNumber(),
+                previousStatus,
+                claim.getStatus());
+
+        return mapToResponse(claim);
+        }
+
+    private void validateTransition(
+        ClaimStatus current,
+        ClaimStatus next) {
+
+        current.validateTransition(next);
+
+        }
 
     private ClaimResponse mapToResponse(Claim claim) {
 

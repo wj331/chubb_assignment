@@ -19,3 +19,7 @@
 - Built on AssignClaims which assigns one Claim to one ClaimOfficer. Followed AI's guidance to change AssignClaimRequest.java, update Controller, Service and followed by ServiceImpl. I initially wondered why not also pass Officer's ID in the url, but seems like it is a good practice to only include id of what we are changing in the url, and other information in the request body
 - Also went to set business logic such as once assigned, unable to assign claims again to a new officer
 - Refactored error messages to look nicer rather on relying on default IllegalArgumentException
+
+## Commit 6
+- Introduced the business logic here, for claim's status transition from SUBMITTED -> UNDER_REVIEW -> APPROVED / REJECTED / WAITING FOR INFORMATION etc. Used AI here to consider the different transition logics, in real world scenarios of insurance claims.
+- Additionally, also implemented transition restrictions, officer restrictions which I believe agree with the real world requirements and uses

@@ -1,6 +1,7 @@
 package com.chubb.claims.controller;
 
 import com.chubb.claims.dto.request.CreateClaimRequest;
+import com.chubb.claims.dto.request.UpdateClaimStatusRequest;
 import com.chubb.claims.dto.request.AssignClaimRequest;
 import com.chubb.claims.dto.response.ClaimResponse;
 import com.chubb.claims.service.ClaimService;
@@ -44,5 +45,14 @@ public class ClaimController {
 
         return ResponseEntity.ok(
                 claimService.assignOfficer(id, request));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ClaimResponse> updateStatus(
+                @PathVariable Long id,
+                @Valid @RequestBody UpdateClaimStatusRequest request) {
+
+        return ResponseEntity.ok(
+                claimService.updateStatus(id, request));
     }
 }

@@ -1,8 +1,8 @@
 package com.chubb.claims.service;
 
-import com.chubb.claims.dto.request.CreateClaimRequest;
 import com.chubb.claims.dto.request.AssignClaimRequest;
-
+import com.chubb.claims.dto.request.CreateClaimRequest;
+import com.chubb.claims.dto.request.UpdateClaimStatusRequest;
 import com.chubb.claims.dto.response.ClaimResponse;
 
 public interface ClaimService {
@@ -11,6 +11,7 @@ public interface ClaimService {
 
     ClaimResponse getClaim(Long id);
 
-    ClaimResponse assignOfficer(Long claimId,
-                                AssignClaimRequest request);
+    ClaimResponse assignOfficer(Long claimId, AssignClaimRequest request);
+
+    ClaimResponse updateStatus(Long claimId, UpdateClaimStatusRequest request);
 }
