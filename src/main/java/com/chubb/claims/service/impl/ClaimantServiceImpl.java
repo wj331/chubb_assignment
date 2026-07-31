@@ -42,7 +42,7 @@ public class ClaimantServiceImpl implements ClaimantService {
 
         Claimant claimant = claimantRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Claimant not found."));
+                        new ResourceNotFoundException("Claimant not found with id " + id));
 
         return toResponse(claimant);
     }
