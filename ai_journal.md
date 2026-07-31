@@ -11,3 +11,6 @@
 
 ## Commit 3
 - Started building on Claimant first as it was simple. Followed AI's guidelines on the Project overall architecture and structure such as using a Controller->Service->Repository->Database. Relevant fields required to create a Claimant passed into Request, used AI to ensure nothing is missing and give suggestions on what to include in the Request
+
+## Commit 4
+- Continued to build on Claims which Claimants can file. Once again, used AI to ensure nothing is missing, fields are appropriate, and all necessary fields are included. On a side note, AI recommended claimant to fill in estimated liability but I feel that should be filled up by a ClaimsOfficer instead of by the claimant himself. Changed accordingly and will implement ClaimsOfficer next.
